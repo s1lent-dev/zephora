@@ -1,0 +1,25 @@
+model User {
+    userId           String       @id @unique
+    firstName        String
+    lastName         String?
+    username         String       @unique
+    email            String       @unique
+    sentMessages     Chat[]       @relation("SentMessages")
+    receivedMessages Chat[]       @relation("ReceivedMessages")
+    posts            Post[]       @relation("UserPosts")
+    comments         Comment[]    @relation("UserComments")
+    likes            Like[]       @relation("UserLikes")
+    followers        UserFollow[] @relation("UserFollowers")
+    following        UserFollow[] @relation("UserFollowing")
+    createdAt        DateTime     @default(now())
+    updatedAt        DateTime     @updatedAt
+}
+
+model UserFollow {
+    id          Int      @id @default(autoincrement())
+    followerId  String
+    follower    User     @relation("UserFollowers", fields: [followerId], references: [userId])
+    followingId String
+    following   User     @relation("UserFollowing", fields: [followingId], references: [userId])
+    createdAt   DateTime @default(now())
+}

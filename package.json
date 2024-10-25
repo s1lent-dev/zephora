@@ -4,7 +4,7 @@
   "description": "too lazy to add a description",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "workspace": "concurrently \"cd apps/server && npm run concurrent\" \"cd apps/web && npm run dev\" \"cd apps/mobile && npm start\""
   },
   "keywords": [],
   "author": "",

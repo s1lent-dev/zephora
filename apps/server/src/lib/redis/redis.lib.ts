@@ -1,5 +1,4 @@
 import { Redis } from "ioredis";
-
   class RedisService {
     private redis: Redis | null = null;
     constructor() {
