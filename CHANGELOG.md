@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/s1lent-dev/zephora/compare/v1.2.0...v1.3.0) (2024-10-26)
+
+
+### Features
+
+* add socket & refactor lib :sparkles: ([dea6adc](https://github.com/s1lent-dev/zephora/commit/dea6adc049ba033827427a184cfeb3f9dbf2b451))
+
 # [1.2.0](https://github.com/s1lent-dev/zephora/compare/v1.1.0...v1.2.0) (2024-10-26)
 
 
