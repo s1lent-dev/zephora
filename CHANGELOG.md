@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/s1lent-dev/zephora/compare/v1.1.0...v1.2.0) (2024-10-26)
+
+
+### Features
+
+* add kafka, redis, rabbitmq setup :sparkles: ([371c09b](https://github.com/s1lent-dev/zephora/commit/371c09bd282ba257f7806e37c78e6394de849400))
+
 # [1.1.0](https://github.com/s1lent-dev/zephora/compare/v1.0.0...v1.1.0) (2024-10-25)
 
 
