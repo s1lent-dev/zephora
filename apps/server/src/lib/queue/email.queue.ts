@@ -5,6 +5,7 @@ class EmailQueue extends RabbitMQService {
   constructor() {
     super();
     this.initQueues();
+    this.initConsumers();
   }
 
   async initQueues() {
@@ -13,6 +14,14 @@ class EmailQueue extends RabbitMQService {
     await this.createQueue("job-suggestion-email");
     await this.createQueue("aspirant-suggestion-email");
     await this.createQueue("password-auto-create");
+  }
+
+  async initConsumers() {
+    await this.consumeWelcomeEmail();
+    await this.consumePasswordResetEmail();
+    await this.consumeJobSuggestionEmail();
+    await this.consumeAspirantSuggestionEmail();
+    await this.consumePasswordAutoCreateEmail();
   }
     
     // Callbacks for publishing messages to the queues
@@ -79,5 +88,4 @@ class EmailQueue extends RabbitMQService {
     }
 }
 
-const emailQueue = new EmailQueue();
-export { emailQueue, EmailQueue };
+export { EmailQueue };

@@ -43,4 +43,4 @@ class LocationKafkaService extends KafkaService {
   }
 }
 
-export default LocationKafkaService;
+export { LocationKafkaService };

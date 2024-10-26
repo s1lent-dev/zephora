@@ -40,5 +40,4 @@ class KafkaService {
   }
 }
 
-const kafkaService = new KafkaService();
-export { kafkaService, KafkaService };
+export { KafkaService };

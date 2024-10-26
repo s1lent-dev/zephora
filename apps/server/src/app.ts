@@ -9,10 +9,15 @@ import bodyParser from "body-parser";
 import { ErrorMiddleware } from './middlewares/error.middleware.js';
 import passport from 'passport';
 import session from 'express-session';
+import { intializeGoogleOAuth } from './middlewares/verify.google.js';
+import { intializeGithubOAuth } from './middlewares/verify.github.js';
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -20,6 +25,8 @@ app.use(morgan('dev'));
 await graphqlServer.start();
 app.use('/graphql', bodyParser.json(), expressMiddleware(graphqlServer));
 
+intializeGoogleOAuth();
+intializeGithubOAuth();
 app.use(session({
     secret: process.env.OAUTH_SESSION_SECRET || "secret",
     resave: false,

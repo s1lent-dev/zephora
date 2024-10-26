@@ -35,5 +35,4 @@ class RabbitMQService {
   }
 }
 
-const rabbitMQService = new RabbitMQService();
-export { rabbitMQService, RabbitMQService };
+export { RabbitMQService };

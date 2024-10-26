@@ -34,5 +34,4 @@ class PubSubRedis extends RedisService {
 
 }
 
-const pubSubRedis = new PubSubRedis();
-export { pubSubRedis, PubSubRedis };
+export { PubSubRedis };

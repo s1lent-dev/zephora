@@ -5,12 +5,19 @@ class NotificationQueue extends RabbitMQService {
     constructor() {
         super();
         this.initQueues();
+        this.initConsumers();
     }
 
     async initQueues() {
         this.createQueue("job-alerts");
         this.createQueue("aspirant-alerts");
         this.createQueue("follow-request");
+    }
+
+    async initConsumers() {
+        this.consumeJobAlert();
+        this.consumeAspirantAlert();
+        this.consumeFollowRequestAlert();
     }
 
     async sendJobAlert(email: string) {
@@ -50,5 +57,4 @@ class NotificationQueue extends RabbitMQService {
     }
 }
 
-const notificationQueue = new NotificationQueue();
-export { notificationQueue, NotificationQueue };
+export { NotificationQueue };

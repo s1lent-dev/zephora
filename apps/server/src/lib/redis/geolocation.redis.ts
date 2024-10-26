@@ -11,8 +11,8 @@ class RedisGeolocation extends RedisService {
         console.log(`Geolocation added for key: ${key}`);
     }
 
-    async searchNearbyCompanies(key: string, longitude: number, latitude: number, radius: number, unit: string = 'km') {
-        const nearbyCompanies = await this.client?.geosearch(
+    async searchNearby(key: string, longitude: number, latitude: number, radius: number, unit: string = 'km') {
+        const nearby = await this.client?.geosearch(
             key,
             'FROMLONLAT',
             longitude,
@@ -21,9 +21,8 @@ class RedisGeolocation extends RedisService {
             radius,
             unit,
         );
-        return nearbyCompanies;
+        return nearby;
     }
 }
 
-const redisGeolocation = new RedisGeolocation();
-export { redisGeolocation, RedisGeolocation };
+export { RedisGeolocation };

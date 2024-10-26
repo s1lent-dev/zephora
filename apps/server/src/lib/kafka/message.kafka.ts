@@ -1,7 +1,7 @@
 import { KafkaService } from "./kafka.lib.js";
 import { Message } from "../../types/types.js";
 import { prisma } from "../db/prisma.db.js";
-class ChatKafkaService extends KafkaService {
+class MessageKafkaService extends KafkaService {
 
   private consumer = this.createConsumer(process.env.KAFKA_TOPIC2_GROUP_ID || "chat-group");
   private topic = process.env.KAFKA_TOPIC2 || 'messages';
@@ -46,4 +46,4 @@ class ChatKafkaService extends KafkaService {
   }
 }
 
-export default ChatKafkaService;
+export { MessageKafkaService };

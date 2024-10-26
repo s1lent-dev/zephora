@@ -4,11 +4,17 @@ class FeedQueue extends RabbitMQService {
     constructor() {
         super();
         this.initQueues();
+        this.initConsumers();
     }
 
     async initQueues() {
         this.createQueue("post-feed");
         this.createQueue("job-feed");
+    }
+
+    async initConsumers() {
+        this.consumePostFeed();
+        this.consumeJobFeed();
     }
 
     async sendPostFeed(post: any) {
@@ -35,3 +41,5 @@ class FeedQueue extends RabbitMQService {
         });
     }
 }
+
+export { FeedQueue };

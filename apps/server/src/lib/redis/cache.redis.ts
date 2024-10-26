@@ -27,5 +27,4 @@ class RedisCache extends RedisService {
     }
 }
 
-const redisCache = new RedisCache();
-export { redisCache, RedisCache };
+export { RedisCache };

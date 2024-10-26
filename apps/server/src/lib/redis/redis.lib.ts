@@ -28,5 +28,4 @@ class RedisService {
   }
 };
 
-const redisService = new RedisService();
-export { redisService, RedisService };
+export { RedisService };

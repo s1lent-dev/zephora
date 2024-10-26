@@ -1,32 +1,27 @@
-import { Server } from "socket.io";
-  class SocketService {
-    private io: Server | null = null;
-    constructor() {
-      console.log("Initializing Socket Service...");
-      this.io = new Server({
-        cors: {
-          origin: "*",
-          methods: ["GET", "POST"],
-        },
+import { Server, Socket } from "socket.io";
+import http from "http";
+
+class SocketService {
+  protected io!: Server;
+
+  constructor(server: http.Server) {
+    this.io = new Server();
+    this.io.attach(server);
+    console.log("Socket.IO attached to the server");
+
+    this.io.on("connection", (socket: Socket) => {
+      console.log(`Client connected: ${socket.id}`);
+      this.registerEvents(socket);
+      socket.on("disconnect", () => {
+        console.log(`Client disconnected: ${socket.id}`);
       });
-    }
-    public initListeners = () => {
-      const io = this.io;
-      io?.on("connection", (socket) => {
-        console.log("A user connected with socket id: ", socket.id);
-        socket.on("msg", (msg) => {
-          console.log("Message received: ", msg);
-          io?.emit("msg", msg);
-        });
-        socket.on("disconnect", () => {
-          console.log("Client Disconnected with socket id", socket.id);
-        });
-      });
-    };
-    public getSocketServer = () => {
-      return this.io;
-    };
+    });
   }
-  const socketService = new SocketService();
-  const io = socketService.getSocketServer();
-  export { socketService, io };
+
+  // Placeholder to be overridden by subclasses
+  protected registerEvents(socket: Socket) {
+    console.log("Base SocketService registerEvents called.");
+  }
+}
+
+export { SocketService };
