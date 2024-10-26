@@ -26,6 +26,7 @@ interface Profile {
     social: {
         twitter: string;
         github: string;
+        linkedin: string;
         leetcode: string;
     };
     education: [{
@@ -74,9 +75,26 @@ interface Company {
 }
 
 
+interface Message {
+    senderId: string;
+    receiverId: string;
+    message: string;
+    media?: string;
+}
+
+interface Location {
+    location: string;
+    geo_location: {
+        longitude: number;
+        latitude: number;
+    };
+    user: string;
+}
+
+
 
 type ControllerType = (req: Request, res: Response, next: NextFunction) => Promise<void | Response<any, Record<string, any>>>;
 interface CustomRequest extends Request {
     user?: User;
 }
-export { ControllerType, CustomRequest, User, Company, Job };
+export { ControllerType, CustomRequest, User, Company, Job, Message, Location };

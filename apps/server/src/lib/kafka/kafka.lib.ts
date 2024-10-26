@@ -1,44 +1,44 @@
-import { Kafka, Producer } from "kafkajs";
+import { Kafka, Producer, Consumer } from "kafkajs";
 
 class KafkaService {
   private kafka: Kafka;
-  private producer!: Producer;
+  protected producer: Producer;
+
   constructor() {
     this.kafka = new Kafka({
-      clientId: "zephora",
-      brokers: ["localhost:9092"],
+      clientId: process.env.KAFKA_CLIENT_ID,
+      brokers: [process.env.KAFKA_BROKER || ''],
     });
     this.initAdmin();
+    this.producer = this.kafka.producer();
+    this.producer.connect().then(() => console.log("Kafka Producer connected"));
   }
 
   private async initAdmin() {
     const admin = this.kafka.admin();
-    admin.connect().then(() => {
-    console.log("Admin connected");
-    });
+    await admin.connect();
+    console.log("Kafka Admin connected");
+
     await admin.createTopics({
-        topics: [
-            {
-                topic: "messages",
-                numPartitions: 8
-            },
-            {
-                topic: "locations",
-                numPartitions: 8
-            }
-        ],
+      topics: [
+        { topic: process.env.KAFKA_TOPIC1 || 'locations', numPartitions: parseInt(process.env.KAFKA_TOPIC1_PARTITIONS || '8') },
+        { topic: process.env.KAFKA_TOPIC2 || 'messages', numPartitions: parseInt(process.env.KAFKA_TOPIC2_PARTITIONS || '8') },
+      ],
     });
     await admin.disconnect();
   }
 
-  private async createProducer() {
-    if(this.producer) return this.producer;
-    this.producer = this.kafka.producer();
-    await this.producer.connect();
-    return this.producer;
+  // Method to create a consumer
+  protected createConsumer(groupId: string): Consumer {
+    const consumer = this.kafka.consumer({ groupId });
+    consumer.connect().then(() => console.log(`${groupId} consumer connected`));
+    return consumer;
   }
-  
+
+  async disconnect() {
+    await this.producer.disconnect();
+  }
 }
 
 const kafkaService = new KafkaService();
-export { kafkaService };
+export { kafkaService, KafkaService };

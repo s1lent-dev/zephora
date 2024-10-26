@@ -8,6 +8,7 @@ interface IProfile extends Document {
     social: {
         twitter: string;
         github: string;
+        linkedin: string;
         leetcode: string;
     };
     education: [{
@@ -111,6 +112,7 @@ const UserSchema = new Schema<IUser>({
     role: {
         type: String,
         enum: ['user', 'recruiter'],
+        default: 'user',
         required: false
     },
     profile: {
@@ -128,6 +130,10 @@ const UserSchema = new Schema<IUser>({
                 required: false
             },
             github: {
+                type: String,
+                required: false
+            },
+            linkedin: {
                 type: String,
                 required: false
             },

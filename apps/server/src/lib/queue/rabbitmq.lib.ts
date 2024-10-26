@@ -1,31 +1,39 @@
-import ampq from 'amqplib'
+import amqp, { Connection, Channel, ConsumeMessage } from 'amqplib';
 
 class RabbitMQService {
-    private connection: any
-    private channel: any
-    private queue: string
+  private connection!: Connection;
+  protected channel!: Channel;
 
-    constructor() {
-        this.queue = 'notfication-queue'
-    }
+  constructor() {
+    this.connect();
+  }
 
-    async connect() {
-        this.connection = await ampq.connect('amqp://localhost')
-        this.channel = await this.connection.createChannel()
-        await this.channel.assertQueue(this.queue, { durable: false })
-        console.log('Connected to RabbitMQ')
-    }
+  async connect() {
+    this.connection = await amqp.connect('amqp://localhost');
+    this.channel = await this.connection.createChannel();
+    console.log('Connected to RabbitMQ');
+  }
 
-    // async sendToQueue(message: string) {
-    //     await this.channel.sendToQueue(this.queue, Buffer.from(message))
-    // }
+  async createQueue(queue: string) {
+    await this.channel.assertQueue(queue);
+    console.log(`Queue ${queue} created or already exists`);
+  }
 
-    // async consume() {
-    //     await this.channel.consume(this.queue, (message: any) => {
-    //         console.log(`Received message: ${message.content.toString()}`)
-    //     }, { noAck: true })
-    // }
+  async publishMessage(queue: string, message: any) {
+    await this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
+    console.log(`Message sent to queue ${queue}`, message);
+  }
+
+  async consumeMessage(queue: string, handler: (msg: ConsumeMessage | null) => void) {
+    await this.channel.consume(queue, (msg) => {
+      if (msg) {
+        handler(msg);
+        this.channel.ack(msg); // Acknowledge message after processing
+      }
+    });
+    console.log(`Consumer set up for queue ${queue}`);
+  }
 }
 
-const rabbitMQService = new RabbitMQService()
-export { rabbitMQService }
+const rabbitMQService = new RabbitMQService();
+export { rabbitMQService, RabbitMQService };
